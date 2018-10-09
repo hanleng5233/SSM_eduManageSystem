@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanleng.mapper.GradeMapper">
+	<resultMap id="BaseResultMap" type="com.hanleng.entity.Grade">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="sid" jdbcType="INTEGER" property="sid" />
+		<result column="cid" jdbcType="INTEGER" property="cid" />
+		<result column="tid" jdbcType="INTEGER" property="tid" />
+		<result column="pgrade" jdbcType="DOUBLE" property="pgrade" />
+		<result column="kgrade" jdbcType="DOUBLE" property="kgrade" />
+		<result column="zgrade" jdbcType="DOUBLE" property="zgrade" />
+	</resultMap>
+
+	<insert id="insertGrade" parameterType="grade">
+		insert into grade (sid,
+		cid,
+		tid, pgrade, kgrade,
+		zgrade)
+		values (#{sid,jdbcType=INTEGER},
+		#{cid,jdbcType=INTEGER},
+		#{tid,jdbcType=INTEGER},
+		#{pgrade,jdbcType=DOUBLE},
+		#{kgrade,jdbcType=DOUBLE},
+		#{zgrade,jdbcType=DOUBLE})
+	</insert>
+
+</mapper>

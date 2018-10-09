@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanleng.mapper.StudentMapper">
+	<resultMap id="BaseResultMap"
+		type="com.hanleng.entity.Student">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="sex" jdbcType="VARCHAR" property="sex" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="tel" jdbcType="VARCHAR" property="tel" />
+		<result column="classid" jdbcType="INTEGER" property="classid" />
+		<result column="usertype" jdbcType="INTEGER"
+			property="usertype" />
+		<result column="password" jdbcType="VARCHAR"
+			property="password" />
+		<result column="loginname" jdbcType="VARCHAR"
+			property="loginname" />
+	</resultMap>
+
+	<select id="getStudentPager" resultType="student">
+		select * from student
+		limit #{skip},#{size}
+	</select>
+
+	<select id="getCount" resultType="int">
+		select count(*) from student
+	</select>
+
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from student
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.hanleng.entity.Student">
+		insert into student (id, name,
+		sex,
+		address, tel, classid,
+		usertype, password, loginname
+		)
+		values
+		(#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		#{sex,jdbcType=VARCHAR},
+		#{address,jdbcType=VARCHAR},
+		#{tel,jdbcType=VARCHAR}, #{classid,jdbcType=INTEGER},
+		#{usertype,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR},
+		#{loginname,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<sql id="Base_Column_List">
+		id, name, sex, address, tel, classid, usertype, password,
+		loginname
+	</sql>
+
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from student
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<update id="updateByPrimaryKey"
+		parameterType="com.hanleng.entity.Student">
+		update student
+		set name = #{name,jdbcType=VARCHAR},
+		sex =
+		#{sex,jdbcType=VARCHAR},
+		address = #{address,jdbcType=VARCHAR},
+		tel =
+		#{tel,jdbcType=VARCHAR},
+		classid = #{classid,jdbcType=INTEGER},
+		usertype = #{usertype,jdbcType=INTEGER},
+		password =
+		#{password,jdbcType=VARCHAR},
+		loginname = #{loginname,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="getStuByCid" parameterType="int"
+		resultType="com.hanleng.entity.StudentExt">
+		select s.*,c.name classname from student s,classes c where
+		s.classid=c.id
+		and c.id=#{int}
+	</select>
+
+	<select id="stulogin" parameterType="student"
+		resultType="student">
+		select * from student where loginname=#{loginname} and
+		password=#{password}
+	</select>
+
+	<select id="getXuxiu" parameterType="int"
+		resultType="com.hanleng.entity.CourseExt">
+		select c.*,t.name tname,t.id tId from course c,ctc,teacher
+		t
+		where c.type=1 and ctc.claid=#{id} and ctc.couid=c.id and
+		t.id=ctc.tid;
+	</select>
+
+	<!-- 查看课表 -->
+	<select id="getBxCourse" parameterType="int"
+		resultType="com.hanleng.entity.CourseExt">
+		select c.*,t.name tname from teacher t,student s,ctc,course
+		c
+		where c.type=0 and s.classid=#{id} and ctc.claid=s.classid and
+		ctc.couid=c.id and ctc.tid=t.id;
+	</select>
+
+	<select id="getxxCourse" parameterType="int"
+		resultType="com.hanleng.entity.CourseExt">
+		select c.*,t.name tname from course c,teacher t,sc where
+		c.type=1 and sc.sid=#{id} and sc.tid=t.id and c.id=sc.cid;
+	</select>
+
+</mapper>

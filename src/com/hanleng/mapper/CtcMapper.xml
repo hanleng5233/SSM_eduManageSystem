@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanleng.mapper.CtcMapper">
+	<resultMap id="BaseResultMap"
+		type="com.hanleng.entity.CtcKey">
+		<id column="couid" jdbcType="INTEGER" property="couid" />
+		<id column="tid" jdbcType="INTEGER" property="tid" />
+		<id column="claid" jdbcType="INTEGER" property="claid" />
+	</resultMap>
+
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into ctc(couid,tid,claid) values
+		<foreach collection="list" item="item" separator=","
+			index="index">
+			(#{item.couid},#{item.tid},#{item.claid})
+		</foreach>
+	</insert>
+
+</mapper>

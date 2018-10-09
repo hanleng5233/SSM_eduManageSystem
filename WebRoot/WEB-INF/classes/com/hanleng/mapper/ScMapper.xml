@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanleng.mapper.ScMapper">
+	<resultMap id="BaseResultMap" type="com.hanleng.entity.Sc">
+		<id column="sid" jdbcType="INTEGER" property="sid" />
+		<id column="cid" jdbcType="INTEGER" property="cid" />
+		<result column="tid" jdbcType="INTEGER" property="tid" />
+	</resultMap>
+
+	<insert id="inserBatch" parameterType="java.util.List">
+		insert into sc(sid,cid,tid) values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.sid},#{item.cid},#{item.tid})
+		</foreach>
+	</insert>
+
+</mapper>
